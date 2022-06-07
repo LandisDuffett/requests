@@ -269,15 +269,16 @@ function getMyResolvedRequests() {
                 <th>request id</th>
                 <th>request description</th>
                 <th>request amount</th>
+                <th>request status</th>
                 <th>request time</th>
                 <th>resolved time</th>
                 </tr>
             </thead>
             <tbody>`;
             for(let request of responseJson) {
-                if(request.requestStatus == "resolved") {
+                if(request.requestStatus != "pending") {
                     requestTableData += `<tr><td>${request.requestId}</td><td>${request.requestDescription}</td><td>${request.requestAmount}</td>
-                    <td>${request.requestTime}</td><td>${request.resolvedTime}</td></tr>`
+                    <td>${request.requestStatus}</td><td>${request.requestTime}</td><td>${request.resolvedTime}</td></tr>`
                 }  
             }
             requestTableData += `</tbody></table>`;
@@ -303,6 +304,8 @@ function addRequest() {
         resolvedTime: ""
         
     }
+    if (newRequest.requestAmount != 0 && newRequest.requestDescription != "")
+    {
     fetch("http://localhost:7474/requests", {
         method: 'post',
         body: JSON.stringify(newRequest)
@@ -334,7 +337,9 @@ function addRequest() {
             </tr>
         </tbody></table>`
 document.getElementById("empInfo").innerHTML = newRequest;
-})
+})} else {
+    swal("You must fill in a request amount and a description.")
+}
 }
 
 function getAllRequests() {
@@ -496,6 +501,7 @@ function getAllRequests() {
 
   function getResolvedRequests() {
     console.log("data printed on console");
+
     fetch("http://localhost:7474/requests",{method:'get'})
       .then(response => response.json())
       .then(responseJson => {
@@ -530,11 +536,13 @@ function getAllRequests() {
       .catch(error => console.log(error));
 
   }
+
   function updateRequest(requestId, choice){
     console.log (requestId) 
     console.log(choice);
-
-    fetch("http://localhost:7474/requests/"+requestId+"/"+choice, { method: 'put' })
+    const d = new Date();
+    let time = d.toUTCString();
+    fetch("http://localhost:7474/requests/"+requestId+"/"+choice+"/"+time, { method: 'put' })
         .then(response => response.json())
         .then(responseJson => {
             console.log(responseJson)

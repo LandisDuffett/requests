@@ -67,10 +67,11 @@ public class Request {
 			//int bookIdInteger = Integer.parseInt(bookId);
 			ctx.json(userService.getUser(userEmail, userPswd));
 		});
-		server.put("/requests/{requestId}/{status}", (ctx)->{
+		server.put("/requests/{requestId}/{status}/{time}", (ctx)->{
 			int requestId = Integer.parseInt (ctx.pathParam("requestId"));
 			String choice = ctx.pathParam("status");
-			boolean status = requestService.updateRequest(requestId, choice);
+			String time = ctx.pathParam("time");
+			boolean status = requestService.updateRequest(requestId, choice, time);
 			ctx.json(status);
 			
 		});

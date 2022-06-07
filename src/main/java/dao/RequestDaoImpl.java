@@ -116,12 +116,12 @@ public class RequestDaoImpl implements RequestDao {
 	}
 
 
-	public boolean updateRequest(int requestId, String choice) throws ApplicationException {
+	public boolean updateRequest(int requestId, String choice, String time) throws ApplicationException {
 			boolean status = false;
 			try {
 				Connection conn = DBUtil.makeConnection();
 				Statement stmt = conn.createStatement();
-				String query = "UPDATE requests SET request_status='" + choice + "' WHERE request_id="
+				String query = "UPDATE requests SET request_status='" + choice + "', request_resolvedtime='"+time+"' WHERE request_id="
 						+ requestId + "";
 
 				int rowsAffected = stmt.executeUpdate(query);

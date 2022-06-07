@@ -39,8 +39,8 @@ public class RequestServiceImpl implements RequestService {
 		return returnRequestPojo;
 	}
 	@Override
-	public boolean updateRequest(int requestId, String choice) throws ApplicationException{
-		boolean returnStatus = this.requestDao.updateRequest(requestId, choice);
+	public boolean updateRequest(int requestId, String choice, String time) throws ApplicationException{
+		boolean returnStatus = this.requestDao.updateRequest(requestId, choice, time);
 		return returnStatus;
 	}
 	public RequestPojo getRequestInfo(int requestId) throws ApplicationException{
